@@ -1,0 +1,9 @@
+[submodule "game-federation"]
+	path = game-federation
+	url = https://github.com/ghodulik95/game-federation.git
+[submodule "yukon-server"]
+	path = yukon-server
+	url = https://github.com/ghodulik95/yukon-server.git
+[submodule "yukon"]
+	path = yukon
+	url = https://github.com/ghodulik95/yukon.git
