@@ -6,7 +6,7 @@
 
 let
   # Fetch nixpkgs-unstable for accessing nodejs_23
-  unstablePkgs = import <nixos-unstable> {};
+  unstablePkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {};
 in
 {
   imports =
@@ -15,8 +15,9 @@ in
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda1";
+  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -87,9 +88,9 @@ in
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.yukon-mastodon-user = {
+  users.users.yukonfed = {
     isNormalUser = true;
-    description = "Yukon-Mastodon user";
+    description = "yukonfed";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     
@@ -108,16 +109,13 @@ in
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # YUKON-MASTODON: These are packages I used when installing the services. Not all may be strictly necessarily
     wget
-    geany
+    # geany # If you prefer a GUI text editor
     git
-    tmux
+    # tmux # If you want to use tmux to manage console sessions
     unstablePkgs.nodejs_23             # Node.js runtime (includes npm)
     mysql-client          # MySQL client tools for interacting with the database
     mariadb               # MySQL-compatible database server
     unzip
-    iputils
-    lsof
-    gh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
